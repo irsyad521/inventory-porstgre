@@ -1,0 +1,53 @@
+import { createSlice } from '@reduxjs/toolkit';
+
+const initialState = {
+    currentUser: null,
+    error: null,
+    loading: false,
+};
+
+const userSlice = createSlice({
+    name: 'user',
+    initialState,
+    reducers: {
+        signInStart: (state) => {
+            state.loading = true;
+            state.error = null;
+        },
+        signInSuccess: (state, action) => {
+            state.currentUser = action.payload;
+            state.loading = false;
+            state.error = null;
+        },
+        signInFailure: (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        },
+
+        signoutSuccess: (state) => {
+            state.currentUser = null;
+            state.error = null;
+            state.loading = false;
+        },
+    },
+});
+
+export const { signInStart, signInSuccess, signInFailure, signoutSuccess } = userSlice.actions;
+
+export default userSlice.reducer;
+
+export const fetchChangeRole = () => async (dispatch) => {
+    try {
+        const res = await fetch('/api/auth/signout', {
+            method: 'POST',
+        });
+        const data = await res.json();
+        if (!res.ok) {
+            console.log(data.message);
+        } else {
+            dispatch(signoutSuccess());
+        }
+    } catch (error) {
+        console.log(error.message);
+    }
+};
