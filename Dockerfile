@@ -9,4 +9,4 @@ RUN npm install
 COPY api .
 COPY ./client/dist ./dist
 EXPOSE 3000
-CMD ["node","index.js"]
+ENTRYPOINT [ "node", "index.js" ]
