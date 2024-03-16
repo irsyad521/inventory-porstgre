@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+    db-postgres:
+        image: postgres:latest
+        environment:
+            - POSTGRES_PASSWORD=${PASSWORD_SQL}
+            - POSTGRES_USER=${USERNAME_SQL}
+            - POSTGRES_DB=${DATABASE_SQL}
+        healthcheck:
+            test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB} -h localhost -p 5432']
+            interval: 10s
+            timeout: 5s
+            retries: 5
+            start_period: 5s
+
+    db-mongodb:
+        image: mongo
+        restart: always
+        environment:
+            - MONGO_INITDB_ROOT_USERNAME=${USERNAME_NO_SQL}
+            - MONGO_INITDB_ROOT_PASSWORD=${PASSWORD_NO_SQL}
+        healthcheck:
+            test: ['CMD', 'mongosh', '--eval', "db.adminCommand('ping')"]
+            interval: 5s
+            timeout: 5s
+            retries: 3
+            start_period: 5s
+
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        ports:
+            - '3000:3000'
+        depends_on:
+            db-postgres:
+                condition: service_healthy
+        environment:
+            - USERNAME_SQL=${USERNAME_SQL}
+            - PASSWORD_SQL=${PASSWORD_SQL}
+            - DATABASE_SQL=${DATABASE_SQL}
+            - HOST_SQL=db-postgres
+            - PORT_SQL=${PORT_SQL}
+            - DIALECT_SQL=${DIALECT_SQL}
+            - JWT_SECRET=${JWT_SECRET}
+            - PORT=${PORT}
+            - MONGGO=mongodb://${USERNAME_NO_SQL}:${PASSWORD_NO_SQL}@db-mongodb:27017/

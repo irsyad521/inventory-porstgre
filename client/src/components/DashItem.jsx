@@ -11,7 +11,6 @@ export default function DashItem() {
     const dispatch = useDispatch();
     const [selectedItemId, setSelectedItemId] = useState(null);
     const [showModal, setShowModal] = useState(false);
-    console.log(itemData);
 
     useEffect(() => {
         dispatch(fetchItems());
