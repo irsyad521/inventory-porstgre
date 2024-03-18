@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1710751392145" clover="3.2.0">
+  <project timestamp="1710751392145" name="All files">
+    <metrics statements="36" coveredstatements="36" conditionals="8" coveredconditionals="8" methods="3" coveredmethods="3" elements="47" coveredelements="47" complexity="0" loc="36" ncloc="36" packages="1" files="1" classes="1"/>
+    <file name="controller.auth.js" path="/home/kali/Desktop/belajar-react/inventory-postgresql/api/controllers/controller.auth.js">
+      <metrics statements="36" coveredstatements="36" conditionals="8" coveredconditionals="8" methods="3" coveredmethods="3"/>
+      <line num="7" count="1" type="stmt"/>
+      <line num="8" count="3" type="stmt"/>
+      <line num="10" count="3" type="stmt"/>
+      <line num="11" count="3" type="stmt"/>
+      <line num="13" count="3" type="stmt"/>
+      <line num="14" count="3" type="stmt"/>
+      <line num="15" count="3" type="stmt"/>
+      <line num="17" count="3" type="stmt"/>
+      <line num="19" count="3" type="stmt"/>
+      <line num="24" count="3" type="stmt"/>
+      <line num="25" count="1" type="stmt"/>
+      <line num="27" count="1" type="stmt"/>
+      <line num="29" count="2" type="cond" truecount="4" falsecount="0"/>
+      <line num="30" count="1" type="stmt"/>
+      <line num="32" count="1" type="stmt"/>
+      <line num="36" count="1" type="stmt"/>
+      <line num="37" count="4" type="stmt"/>
+      <line num="39" count="4" type="stmt"/>
+      <line num="40" count="4" type="stmt"/>
+      <line num="42" count="4" type="stmt"/>
+      <line num="43" count="4" type="stmt"/>
+      <line num="44" count="4" type="stmt"/>
+      <line num="45" count="4" type="stmt"/>
+      <line num="46" count="3" type="cond" truecount="2" falsecount="0"/>
+      <line num="47" count="1" type="stmt"/>
+      <line num="49" count="2" type="stmt"/>
+      <line num="50" count="2" type="cond" truecount="2" falsecount="0"/>
+      <line num="51" count="1" type="stmt"/>
+      <line num="54" count="1" type="stmt"/>
+      <line num="60" count="1" type="stmt"/>
+      <line num="62" count="1" type="stmt"/>
+      <line num="68" count="3" type="stmt"/>
+      <line num="72" count="1" type="stmt"/>
+      <line num="73" count="2" type="stmt"/>
+      <line num="74" count="2" type="stmt"/>
+      <line num="76" count="1" type="stmt"/>
+    </file>
+  </project>
+</coverage>

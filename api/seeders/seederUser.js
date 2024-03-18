@@ -7,19 +7,19 @@ await mongoose.connect(process.env.MONGGO);
 
 const initialUsers = [
     {
-        username: 'admin',
+        username: 'adminpassword',
         password: '$2a$10$23uTpZYZ/8..9WyMLUHHSOC6OEHtkWBf9x5s651unUk15QB4r3tZu', // adminpassword
         isAdmin: true,
         role: 'admin',
     },
     {
-        username: 'user',
+        username: 'userpassword',
         password: '$2a$10$Khbw00qyzKbQB0DHOe8.Q.zv.BF2XNvHStEjwq6WvbbTI4p3zT2qW', // userpassword
         isAdmin: false,
         role: 'user',
     },
     {
-        username: 'guest',
+        username: 'guestpassword',
         password: '$2a$10$BX.7ZWPwpuq/8.T8e2KLuenSufUDdErSuYIsRDQ.qEw.6iDCqdLjO', // guestpassword
         isAdmin: false,
         role: 'guest',

@@ -1,3 +1,4 @@
+import { errorHandler } from '../utils/error.js';
 export const isValidDate = (dateString) => {
     const regex = /^\d{4}-\d{2}-\d{2}$/;
     return regex.test(dateString);
@@ -28,6 +29,7 @@ export const validateUsername = (username) => {
 };
 
 export const validatePassword = (password) => {
+    password = password.trim();
     if (!password || password === '') {
         throw errorHandler(400, 'Password is required');
     }

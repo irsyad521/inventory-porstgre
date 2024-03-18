@@ -3,19 +3,17 @@ import { errorHandler } from '../utils/error.js';
 import { validateSupplierFields } from '../utils/validate.js';
 
 export const addSuplier = async (req, res, next) => {
-    const { nama_pemasok, alamat, kontak } = req.body;
-
-    if (req.user.role == 'guest' && req.user.isAdmin == false) {
-        return next(errorHandler(403, 'You are not allowed create supplier'));
-    }
-
-    nama_pemasok = nama_pemasok.trim();
-    alamat = alamat.trim();
-    kontak = kontak.trim();
-
-    validateSupplierFields({ nama_pemasok, alamat, kontak });
+    let { nama_pemasok, alamat, kontak } = req.body;
 
     try {
+        if (req.user.role == 'guest' && req.user.isAdmin == false) {
+            throw next(errorHandler(403, 'You are not allowed create supplier'));
+        }
+
+        nama_pemasok = nama_pemasok.trim();
+        alamat = alamat.trim();
+        kontak = kontak.trim();
+        validateSupplierFields({ nama_pemasok, alamat, kontak });
         const newSupplier = {
             nama_pemasok,
             alamat,

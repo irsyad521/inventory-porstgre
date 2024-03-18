@@ -5,21 +5,20 @@ import jwt from 'jsonwebtoken';
 import { validatePassword, validateUsername } from '../utils/validate.js';
 
 export const signup = async (req, res, next) => {
-    const { username, password } = req.body;
+    let { username, password } = req.body;
 
     username = username.trim();
     password = password.trim();
 
-    validateUsername(username);
-    validatePassword(password);
-
     try {
+        validateUsername(username);
+        validatePassword(password);
+
         const hashedPassword = bcryptjs.hashSync(password, 10);
 
         const newUser = new User({
             username,
             password: hashedPassword,
-            role,
         });
 
         const response = await newUser.save();
@@ -35,22 +34,21 @@ export const signup = async (req, res, next) => {
 };
 
 export const signin = async (req, res, next) => {
-    const { username, password } = req.body;
+    let { username, password } = req.body;
 
     username = username.trim();
     password = password.trim();
 
-    validateUsername(username);
-    validatePassword(password);
-
     try {
+        validateUsername(username);
+        validatePassword(password);
         const validUser = await User.findOne({ username });
         if (!validUser) {
-            return next(errorHandler(404, 'User not found'));
+            throw next(errorHandler(404, 'User not found'));
         }
         const validPassword = bcryptjs.compareSync(password, validUser.password);
         if (!validPassword) {
-            return next(errorHandler(400, 'Invalid username or password'));
+            throw next(errorHandler(400, 'Invalid username or password'));
         }
 
         const token = jwt.sign(
