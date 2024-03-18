@@ -2,37 +2,16 @@ import User from '../models/model.user.js';
 import bcryptjs from 'bcryptjs';
 import { errorHandler } from '../utils/error.js';
 import jwt from 'jsonwebtoken';
+import { validatePassword, validateUsername } from '../utils/validate.js';
 
 export const signup = async (req, res, next) => {
-    const { username, password, role } = req.body;
+    const { username, password } = req.body;
 
-    if (role !== 'user' && role !== 'guest') {
-        return next(errorHandler(400, 'Invalid role'));
-    }
+    username = username.trim();
+    password = password.trim();
 
-    if (!username || !password || !role || username.trim() === '' || password.trim() === '') {
-        return next(errorHandler(400, 'All fields are required'));
-    }
-
-    if (password) {
-        if (password.length < 6) {
-            return next(errorHandler(400, 'Password must be at least 6 characters'));
-        }
-    }
-    if (username) {
-        if (username.length < 7 || username.length > 20) {
-            return next(errorHandler(400, 'Username must be between 7 and 20 characters'));
-        }
-        if (username.includes(' ')) {
-            return next(errorHandler(400, 'Username cannot contain spaces'));
-        }
-        if (username !== username.toLowerCase()) {
-            return next(errorHandler(400, 'Username must be lowercase'));
-        }
-        if (!username.match(/^[a-zA-Z0-9]+$/)) {
-            return next(errorHandler(400, 'Username can only contain letters and numbers'));
-        }
-    }
+    validateUsername(username);
+    validatePassword(password);
 
     try {
         const hashedPassword = bcryptjs.hashSync(password, 10);
@@ -58,9 +37,11 @@ export const signup = async (req, res, next) => {
 export const signin = async (req, res, next) => {
     const { username, password } = req.body;
 
-    if (!username || !password || username.trim() === '' || password.trim() === '') {
-        return next(errorHandler(400, 'All fields are required'));
-    }
+    username = username.trim();
+    password = password.trim();
+
+    validateUsername(username);
+    validatePassword(password);
 
     try {
         const validUser = await User.findOne({ username });

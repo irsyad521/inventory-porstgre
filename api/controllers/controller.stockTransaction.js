@@ -11,19 +11,11 @@ export const addStockTransaction = async (req, res, next) => {
         return next(errorHandler(403, 'You are not allowed add stock transaction'));
     }
 
+    validateTransactionDate(tanggal);
+    validateTransactionType(jenis);
+    validateTransactionQuantity(jumlah);
+
     try {
-        if (!isValidDate(tanggal)) {
-            return next(errorHandler(400, 'Invalid transaction date'));
-        }
-
-        if (jenis !== 'masuk' && jenis !== 'keluar') {
-            return next(errorHandler(400, 'Invalid transaction type'));
-        }
-
-        if (parseInt(jumlah) <= 0) {
-            return next(errorHandler(400, 'Transaction quantity must be a positive integer'));
-        }
-
         const existingItem = await Item.findByPk(id_barang);
         if (!existingItem) {
             return next(errorHandler(404, 'Item not found'));
@@ -67,12 +59,6 @@ export const getStockTransactions = async (req, res, next) => {
         }
         if (req.query.id_barang) {
             whereClause.id_barang = req.query.id_barang;
-        }
-        if (req.query.searchTerm) {
-            whereClause[Op.or] = [
-                { jenis: { [Op.iLike]: `%${req.query.searchTerm}%` } },
-                { id_barang: { [Op.iLike]: `%${req.query.searchTerm}%` } },
-            ];
         }
 
         const stockTransactions = await StockTransaction.findAll({

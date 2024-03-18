@@ -1,6 +1,7 @@
 import { errorHandler } from '../utils/error.js';
 import User from '../models/model.user.js';
 import bcryptjs from 'bcryptjs';
+import { validatePassword, validateRole, validateUsername } from '../utils/validate.js';
 
 export const createUser = async (req, res, next) => {
     const { username, password, role } = req.body;
@@ -9,32 +10,13 @@ export const createUser = async (req, res, next) => {
         return next(errorHandler(403, 'You are not allowed create user'));
     }
 
-    if (role !== 'user' && role !== 'guest') {
-        return next(errorHandler(400, 'Invalid role'));
-    }
+    role = role.trim();
+    username = username.trim();
+    password = password.trim();
 
-    if (!username || !password || !role || username.trim() === '' || password.trim() === '') {
-        return next(errorHandler(400, 'All fields are required'));
-    }
-
-    if (password && password.length < 6) {
-        return next(errorHandler(400, 'Password must be at least 6 characters'));
-    }
-
-    if (username) {
-        if (username.length < 7 || username.length > 20) {
-            return next(errorHandler(400, 'Username must be between 7 and 20 characters'));
-        }
-        if (username.includes(' ')) {
-            return next(errorHandler(400, 'Username cannot contain spaces'));
-        }
-        if (username !== username.toLowerCase()) {
-            return next(errorHandler(400, 'Username must be lowercase'));
-        }
-        if (!username.match(/^[a-zA-Z0-9]+$/)) {
-            return next(errorHandler(400, 'Username can only contain letters and numbers'));
-        }
-    }
+    validateRole(role);
+    validateUsername(username);
+    validatePassword(password);
 
     try {
         const hashedPassword = bcryptjs.hashSync(password, 10);
@@ -99,37 +81,25 @@ export const updateUser = async (req, res, next) => {
         return next(errorHandler(403, 'You are not allowed to update this user'));
     }
 
-    if (!username || !password || !role || username.trim() === '' || password.trim() === '') {
-        return next(errorHandler(400, 'All fields are required'));
-    }
-
     if (role !== 'user' && role !== 'guest' && role !== 'admin') {
         return next(errorHandler(400, 'Invalid role'));
     }
 
-    if (password) {
-        if (password.length < 6) {
-            return next(errorHandler(400, 'Password must be at least 6 characters'));
-        }
-    }
+    username = username.trim();
+    password = password.trim();
 
-    if (username) {
-        if (username.length < 7 || username.length > 20) {
-            return next(errorHandler(400, 'Username must be between 7 and 20 characters'));
-        }
-        if (username.includes(' ')) {
-            return next(errorHandler(400, 'Username cannot contain spaces'));
-        }
-        if (username !== username.toLowerCase()) {
-            return next(errorHandler(400, 'Username must be lowercase'));
-        }
-        if (!username.match(/^[a-zA-Z0-9]+$/)) {
-            return next(errorHandler(400, 'Username can only contain letters and numbers'));
-        }
-    }
-    const hashedPassword = bcryptjs.hashSync(password, 10);
+    validateRole(role);
+    validateUsername(username);
+    validatePassword(password);
 
     try {
+        const hashedPassword = bcryptjs.hashSync(password, 10);
+
+        const existingUser = await User.findById(req.params.userId);
+        if (!existingUser) {
+            return next(errorHandler(404, 'User not found'));
+        }
+
         const updatedUser = await User.findByIdAndUpdate(
             req.params.userId,
             {
@@ -154,7 +124,10 @@ export const deleteUser = async (req, res, next) => {
         return next(errorHandler(403, 'You are not allowed to Delete this user'));
     }
     try {
-        await User.findByIdAndDelete(req.params.userId);
+        const deletedUser = await User.findByIdAndDelete(req.params.userId);
+        if (!deletedUser) {
+            return next(errorHandler(404, 'User not found'));
+        }
         res.status(200).json('User has been deleted');
     } catch (error) {
         next(error);

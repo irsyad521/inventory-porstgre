@@ -1,22 +1,25 @@
 import Supplier from '../models/model.supplier.js';
 import { errorHandler } from '../utils/error.js';
+import { validateSupplierFields } from '../utils/validate.js';
 
 export const addSuplier = async (req, res, next) => {
     const { nama_pemasok, alamat, kontak } = req.body;
-
-    if (!nama_pemasok || !alamat || !kontak || nama_pemasok === ' ' || alamat === ' ' || kontak === ' ') {
-        return next(errorHandler(403, 'Please provide all required fields for supplier'));
-    }
 
     if (req.user.role == 'guest' && req.user.isAdmin == false) {
         return next(errorHandler(403, 'You are not allowed create supplier'));
     }
 
+    nama_pemasok = nama_pemasok.trim();
+    alamat = alamat.trim();
+    kontak = kontak.trim();
+
+    validateSupplierFields({ nama_pemasok, alamat, kontak });
+
     try {
         const newSupplier = {
-            nama_pemasok: nama_pemasok.trim(),
-            alamat: alamat.trim(),
-            kontak: kontak.trim(),
+            nama_pemasok,
+            alamat,
+            kontak,
         };
 
         const savedSupplier = await Supplier.create(newSupplier);
@@ -85,19 +88,20 @@ export const deleteSupplier = async (req, res, next) => {
 export const updateSupplier = async (req, res, next) => {
     const { nama_pemasok, alamat, kontak } = req.body;
 
-    if (!nama_pemasok || !alamat || !kontak || nama_pemasok === ' ' || alamat === ' ' || kontak === ' ') {
-        return next(errorHandler(403, 'Please provide all required fields for supplier'));
-    }
-
     if (req.user.role == 'guest' && req.user.isAdmin == false) {
         return next(errorHandler(403, 'You are not allowed update supplier'));
     }
+    nama_pemasok = nama_pemasok.trim();
+    alamat = alamat.trim();
+    kontak = kontak.trim();
+
+    validateSupplierFields({ nama_pemasok, alamat, kontak });
 
     try {
         const newSupplier = {
-            nama_pemasok: nama_pemasok.trim(),
-            alamat: alamat.trim(),
-            kontak: kontak.trim(),
+            nama_pemasok,
+            alamat,
+            kontak,
         };
 
         const updatedSupplier = await Supplier.update(newSupplier, {

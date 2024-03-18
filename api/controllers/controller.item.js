@@ -3,18 +3,21 @@ import Item from '../models/model.item.js';
 import StockTransaction from '../models/model.stockTransaction.js';
 import { errorHandler } from '../utils/error.js';
 import Supplier from '../models/model.supplier.js';
+import { validateItemFields } from '../utils/validate.js';
 
 export const addItem = async (req, res, next) => {
     const { nama_barang, deskripsi, harga, pemasokId, gambar_barang } = req.body;
-    console.log(req.body);
-
-    if (!nama_barang || !deskripsi || !harga || !pemasokId) {
-        return next(errorHandler(400, 'Please provide all required fields'));
-    }
 
     if (req.user.role == 'guest' && req.user.isAdmin == false) {
         return next(errorHandler(403, 'You are not allowed Add item'));
     }
+
+    nama_barang = nama_barang.trim();
+    deskripsi = deskripsi.trim();
+    harga = harga.trim();
+    pemasokId = pemasokId.trim();
+
+    validateItemFields({ nama_barang, deskripsi, harga, pemasokId });
 
     try {
         const existingSupplier = await Supplier.findByPk(pemasokId);
@@ -118,13 +121,16 @@ export const deleteItem = async (req, res, next) => {
 
 export const updateItem = async (req, res, next) => {
     const { nama_barang, deskripsi, harga, pemasokId, gambar_barang } = req.body;
-    if (!nama_barang || !deskripsi || !harga || !pemasokId) {
-        return next(errorHandler(400, 'Please provide all required fields'));
-    }
 
     if (req.user.role == 'guest' && req.user.isAdmin == false) {
         return next(errorHandler(403, 'You are not allowed update item'));
     }
+    nama_barang = nama_barang.trim();
+    deskripsi = deskripsi.trim();
+    harga = harga.trim();
+    pemasokId = pemasokId.trim();
+
+    validateItemFields({ nama_barang, deskripsi, harga, pemasokId });
 
     try {
         const existingSupplier = await Supplier.findByPk(pemasokId);
