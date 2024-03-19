@@ -29,7 +29,6 @@ export const validateUsername = (username) => {
 };
 
 export const validatePassword = (password) => {
-    password = password.trim();
     if (!password || password === '') {
         throw errorHandler(400, 'Password is required');
     }

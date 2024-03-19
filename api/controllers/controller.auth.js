@@ -15,7 +15,6 @@ export const signup = async (req, res, next) => {
         validatePassword(password);
 
         const hashedPassword = bcryptjs.hashSync(password, 10);
-
         const newUser = new User({
             username,
             password: hashedPassword,
@@ -29,6 +28,7 @@ export const signup = async (req, res, next) => {
         if (error.code === 11000 && error.keyValue.username) {
             return next(errorHandler(400, 'Username already exists'));
         }
+
         next(error);
     }
 };

@@ -37,9 +37,11 @@ app.use((err, req, res, next) => {
     });
 });
 
+export default app;
+
 db.authenticate()
     .then(() => {
-        console.log('Sequelize connected');
+        // console.log('Sequelize connected');
     })
     .catch((err) => {
         console.error('Sequelize connection failed:', err);

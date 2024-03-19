@@ -4,7 +4,7 @@ import bcryptjs from 'bcryptjs';
 import { validatePassword, validateRole, validateUsername } from '../utils/validate.js';
 
 export const createUser = async (req, res, next) => {
-    const { username, password, role } = req.body;
+    let { username, password, role } = req.body;
 
     if (req.user.role !== 'admin' && req.user.isAdmin !== true) {
         return next(errorHandler(403, 'You are not allowed create user'));
@@ -75,7 +75,7 @@ export const getUsers = async (req, res, next) => {
 };
 
 export const updateUser = async (req, res, next) => {
-    const { username, password, role } = req.body;
+    let { username, password, role } = req.body;
 
     if (req.user.role !== 'admin' && req.user.isAdmin !== true) {
         return next(errorHandler(403, 'You are not allowed to update this user'));
@@ -86,19 +86,21 @@ export const updateUser = async (req, res, next) => {
     }
 
     username = username.trim();
-    password = password.trim();
-
-    validateRole(role);
-    validateUsername(username);
-    validatePassword(password);
 
     try {
-        const hashedPassword = bcryptjs.hashSync(password, 10);
+        validateRole(role);
+        validateUsername(username);
+        validatePassword(password);
+
+        const trimmedPassword = password.trim();
+        const hashedPassword = bcryptjs.hashSync(trimmedPassword, 10);
 
         const existingUser = await User.findById(req.params.userId);
         if (!existingUser) {
             return next(errorHandler(404, 'User not found'));
         }
+
+        console.log(req.params.userId);
 
         const updatedUser = await User.findByIdAndUpdate(
             req.params.userId,
@@ -112,7 +114,7 @@ export const updateUser = async (req, res, next) => {
             },
             { new: true },
         );
-        const { password, ...rest } = updatedUser._doc;
+        const { password: userPassword, ...rest } = updatedUser._doc;
         res.status(200).json(rest);
     } catch (error) {
         next(error);
