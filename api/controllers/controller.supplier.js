@@ -1,4 +1,10 @@
 import Supplier from '../models/model.supplier.js';
+import {
+    createSupplierRepository,
+    deleteSupplierRepository,
+    getSuppliersRepository,
+    updateSupplierRepository,
+} from '../repository/repository.supplier.js';
 import { errorHandler } from '../utils/error.js';
 import { validateSupplierFields } from '../utils/validate.js';
 
@@ -10,17 +16,9 @@ export const addSuplier = async (req, res, next) => {
             throw next(errorHandler(403, 'You are not allowed create supplier'));
         }
 
-        nama_pemasok = nama_pemasok.trim();
-        alamat = alamat.trim();
-        kontak = kontak.trim();
         validateSupplierFields({ nama_pemasok, alamat, kontak });
-        const newSupplier = {
-            nama_pemasok,
-            alamat,
-            kontak,
-        };
 
-        const savedSupplier = await Supplier.create(newSupplier);
+        const savedSupplier = await createSupplierRepository(nama_pemasok.trim(), alamat.trim(), kontak.trim());
 
         res.status(201).json(savedSupplier);
     } catch (error) {
@@ -32,30 +30,14 @@ export const getSupplier = async (req, res, next) => {
     try {
         const startIndex = parseInt(req.query.startIndex) || 0;
         const limit = parseInt(req.query.limit) || 9;
-        const validSortDirection = ['ASC', 'DESC'];
-        const sortDirection = validSortDirection.includes(req.query.sortDirection) ? req.query.sortDirection : 'ASC';
+        const sortDirection = req.query.sortDirection || 'ASC';
+        const searchTerm = req.query.searchTerm || '';
 
-        const suppliers = await Supplier.findAll({
-            where: {
-                ...(req.query.searchTerm && {
-                    [Sequelize.Op.or]: [
-                        { nama_pemasok: { [Sequelize.Op.iLike]: `%${req.query.searchTerm}%` } },
-                        { alamat: { [Sequelize.Op.iLike]: `%${req.query.searchTerm}%` } },
-                        { kontak: { [Sequelize.Op.iLike]: `%${req.query.searchTerm}%` } },
-                    ],
-                }),
-            },
-            order: [['updatedAt', sortDirection]],
-            offset: startIndex,
-            limit: limit,
-        });
-
-        const totalSuppliers = await Supplier.count();
-        const now = new Date();
-        const oneMonthAgo = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
-
-        const lastMonthSuppliers = await Supplier.count({
-            createdAt: { $gte: oneMonthAgo },
+        const { suppliers, totalSuppliers, lastMonthSuppliers } = await getSuppliersRepository({
+            searchTerm,
+            startIndex,
+            limit,
+            sortDirection,
         });
 
         res.status(200).json({
@@ -69,13 +51,14 @@ export const getSupplier = async (req, res, next) => {
 };
 
 export const deleteSupplier = async (req, res, next) => {
-    if (req.user.role == 'guest' && req.user.isAdmin == false) {
-        return next(errorHandler(403, 'You are not allowed delete supplier'));
-    }
     try {
-        const deletedSupplier = await Supplier.destroy({ where: { id: req.params.supplierId } });
-        if (!deletedSupplier) {
-            return next(errorHandler(404, 'Supplier not found'));
+        if (req.user.role === 'guest' && req.user.isAdmin === false) {
+            throw next(errorHandler(403, 'You are not allowed to delete supplier'));
+        }
+        const deletedSupplier = await deleteSupplierRepository(req.params.supplierId);
+
+        if (deletedSupplier === 0) {
+            throw next(errorHandler(404, 'Supplier not found'));
         }
         res.status(200).json({ message: 'Supplier deleted successfully' });
     } catch (error) {
@@ -84,38 +67,25 @@ export const deleteSupplier = async (req, res, next) => {
 };
 
 export const updateSupplier = async (req, res, next) => {
-    const { nama_pemasok, alamat, kontak } = req.body;
-
-    if (req.user.role == 'guest' && req.user.isAdmin == false) {
-        return next(errorHandler(403, 'You are not allowed update supplier'));
+    let { nama_pemasok, alamat, kontak } = req.body;
+    if (req.user.role === 'guest' && req.user.isAdmin === false) {
+        return next(errorHandler(403, 'You are not allowed to update supplier'));
     }
-    nama_pemasok = nama_pemasok.trim();
-    alamat = alamat.trim();
-    kontak = kontak.trim();
-
-    validateSupplierFields({ nama_pemasok, alamat, kontak });
 
     try {
-        const newSupplier = {
+        validateSupplierFields({ nama_pemasok, alamat, kontak });
+
+        const [rowsAffected, [updatedSupplier]] = await updateSupplierRepository(req.params.supplierId, {
             nama_pemasok,
             alamat,
             kontak,
-        };
-
-        const updatedSupplier = await Supplier.update(newSupplier, {
-            where: { id: req.params.supplierId },
-            returning: true,
         });
 
-        if (!updatedSupplier) {
+        if (rowsAffected === 0) {
             return next(errorHandler(404, 'Supplier not found'));
         }
 
-        if (updatedSupplier[0] === 0) {
-            return next(errorHandler(404, 'Supplier not found'));
-        }
-
-        res.status(200).json(updatedSupplier[1][0]);
+        res.status(200).json(updatedSupplier);
     } catch (error) {
         next(error);
     }

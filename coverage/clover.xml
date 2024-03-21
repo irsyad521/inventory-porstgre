@@ -1,66 +1,143 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1710839280497" clover="3.2.0">
-  <project timestamp="1710839280498" name="All files">
-    <metrics statements="51" coveredstatements="51" conditionals="50" coveredconditionals="50" methods="12" coveredmethods="12" elements="113" coveredelements="113" complexity="0" loc="51" ncloc="51" packages="1" files="3" classes="3"/>
-    <file name="error.js" path="/home/kali/Desktop/belajar-react/inventory-postgresql/api/utils/error.js">
-      <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
-      <line num="1" count="4" type="stmt"/>
-      <line num="2" count="30" type="stmt"/>
-      <line num="3" count="30" type="stmt"/>
-      <line num="4" count="30" type="stmt"/>
-      <line num="5" count="30" type="stmt"/>
-    </file>
-    <file name="validate.js" path="/home/kali/Desktop/belajar-react/inventory-postgresql/api/utils/validate.js">
-      <metrics statements="37" coveredstatements="37" conditionals="46" coveredconditionals="46" methods="9" coveredmethods="9"/>
-      <line num="2" count="2" type="stmt"/>
-      <line num="3" count="4" type="stmt"/>
-      <line num="4" count="4" type="stmt"/>
-      <line num="7" count="2" type="stmt"/>
-      <line num="8" count="2" type="cond" truecount="2" falsecount="0"/>
-      <line num="9" count="1" type="stmt"/>
-      <line num="13" count="2" type="stmt"/>
-      <line num="14" count="8" type="cond" truecount="4" falsecount="0"/>
-      <line num="15" count="1" type="stmt"/>
-      <line num="17" count="7" type="cond" truecount="4" falsecount="0"/>
-      <line num="18" count="2" type="stmt"/>
-      <line num="20" count="5" type="cond" truecount="2" falsecount="0"/>
-      <line num="21" count="1" type="stmt"/>
-      <line num="23" count="4" type="cond" truecount="2" falsecount="0"/>
-      <line num="24" count="1" type="stmt"/>
-      <line num="26" count="3" type="cond" truecount="2" falsecount="0"/>
-      <line num="27" count="1" type="stmt"/>
-      <line num="31" count="2" type="stmt"/>
-      <line num="32" count="4" type="cond" truecount="4" falsecount="0"/>
-      <line num="33" count="1" type="stmt"/>
-      <line num="35" count="3" type="cond" truecount="2" falsecount="0"/>
-      <line num="36" count="1" type="stmt"/>
-      <line num="40" count="2" type="stmt"/>
-      <line num="41" count="6" type="cond" truecount="6" falsecount="0"/>
-      <line num="42" count="5" type="stmt"/>
-      <line num="46" count="2" type="stmt"/>
-      <line num="47" count="6" type="cond" truecount="8" falsecount="0"/>
-      <line num="48" count="4" type="stmt"/>
-      <line num="52" count="2" type="stmt"/>
-      <line num="53" count="5" type="cond" truecount="4" falsecount="0"/>
-      <line num="54" count="3" type="stmt"/>
-      <line num="58" count="2" type="stmt"/>
-      <line num="59" count="5" type="cond" truecount="4" falsecount="0"/>
-      <line num="60" count="3" type="stmt"/>
-      <line num="64" count="2" type="stmt"/>
-      <line num="65" count="5" type="cond" truecount="2" falsecount="0"/>
-      <line num="66" count="3" type="stmt"/>
-    </file>
-    <file name="verifiyUser.js" path="/home/kali/Desktop/belajar-react/inventory-postgresql/api/utils/verifiyUser.js">
-      <metrics statements="9" coveredstatements="9" conditionals="4" coveredconditionals="4" methods="2" coveredmethods="2"/>
-      <line num="3" count="1" type="stmt"/>
-      <line num="4" count="3" type="stmt"/>
-      <line num="5" count="3" type="cond" truecount="2" falsecount="0"/>
-      <line num="6" count="1" type="stmt"/>
-      <line num="8" count="2" type="stmt"/>
-      <line num="9" count="2" type="cond" truecount="2" falsecount="0"/>
-      <line num="10" count="1" type="stmt"/>
-      <line num="12" count="1" type="stmt"/>
-      <line num="13" count="1" type="stmt"/>
-    </file>
+<coverage generated="1711026092059" clover="3.2.0">
+  <project timestamp="1711026092059" name="All files">
+    <metrics statements="116" coveredstatements="57" conditionals="85" coveredconditionals="50" methods="17" coveredmethods="13" elements="218" coveredelements="120" complexity="0" loc="116" ncloc="116" packages="2" files="5" classes="5"/>
+    <package name="controllers">
+      <metrics statements="63" coveredstatements="4" conditionals="35" coveredconditionals="0" methods="4" coveredmethods="0"/>
+      <file name="controller.item.js" path="/home/kali/Desktop/belajar-react/inventory-postgresql/api/controllers/controller.item.js">
+        <metrics statements="63" coveredstatements="4" conditionals="35" coveredconditionals="0" methods="4" coveredmethods="0"/>
+        <line num="8" count="3" type="stmt"/>
+        <line num="9" count="0" type="stmt"/>
+        <line num="11" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="15" count="0" type="stmt"/>
+        <line num="16" count="0" type="stmt"/>
+        <line num="17" count="0" type="stmt"/>
+        <line num="18" count="0" type="stmt"/>
+        <line num="20" count="0" type="stmt"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="23" count="0" type="stmt"/>
+        <line num="24" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="25" count="0" type="stmt"/>
+        <line num="28" count="0" type="stmt"/>
+        <line num="34" count="0" type="stmt"/>
+        <line num="43" count="0" type="stmt"/>
+        <line num="50" count="0" type="stmt"/>
+        <line num="52" count="0" type="cond" truecount="0" falsecount="5"/>
+        <line num="53" count="0" type="stmt"/>
+        <line num="55" count="0" type="stmt"/>
+        <line num="59" count="3" type="stmt"/>
+        <line num="60" count="0" type="stmt"/>
+        <line num="61" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="62" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="63" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="65" count="0" type="stmt"/>
+        <line num="84" count="0" type="stmt"/>
+        <line num="85" count="0" type="stmt"/>
+        <line num="86" count="0" type="stmt"/>
+        <line num="88" count="0" type="stmt"/>
+        <line num="92" count="0" type="stmt"/>
+        <line num="98" count="0" type="stmt"/>
+        <line num="102" count="3" type="stmt"/>
+        <line num="103" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="104" count="0" type="stmt"/>
+        <line num="106" count="0" type="stmt"/>
+        <line num="107" count="0" type="stmt"/>
+        <line num="108" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="109" count="0" type="stmt"/>
+        <line num="112" count="0" type="stmt"/>
+        <line num="114" count="0" type="stmt"/>
+        <line num="116" count="0" type="stmt"/>
+        <line num="118" count="0" type="stmt"/>
+        <line num="122" count="3" type="stmt"/>
+        <line num="123" count="0" type="stmt"/>
+        <line num="125" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="126" count="0" type="stmt"/>
+        <line num="128" count="0" type="stmt"/>
+        <line num="129" count="0" type="stmt"/>
+        <line num="130" count="0" type="stmt"/>
+        <line num="131" count="0" type="stmt"/>
+        <line num="133" count="0" type="stmt"/>
+        <line num="135" count="0" type="stmt"/>
+        <line num="136" count="0" type="stmt"/>
+        <line num="137" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="138" count="0" type="stmt"/>
+        <line num="141" count="0" type="stmt"/>
+        <line num="147" count="0" type="stmt"/>
+        <line num="157" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="158" count="0" type="stmt"/>
+        <line num="161" count="0" type="stmt"/>
+        <line num="168" count="0" type="stmt"/>
+        <line num="170" count="0" type="stmt"/>
+      </file>
+    </package>
+    <package name="utils">
+      <metrics statements="53" coveredstatements="53" conditionals="50" coveredconditionals="50" methods="13" coveredmethods="13"/>
+      <file name="error.js" path="/home/kali/Desktop/belajar-react/inventory-postgresql/api/utils/error.js">
+        <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="1" count="6" type="stmt"/>
+        <line num="2" count="43" type="stmt"/>
+        <line num="3" count="43" type="stmt"/>
+        <line num="4" count="43" type="stmt"/>
+        <line num="5" count="43" type="stmt"/>
+      </file>
+      <file name="generatedToken.js" path="/home/kali/Desktop/belajar-react/inventory-postgresql/api/utils/generatedToken.js">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="2" count="3" type="stmt"/>
+        <line num="3" count="22" type="stmt"/>
+      </file>
+      <file name="validate.js" path="/home/kali/Desktop/belajar-react/inventory-postgresql/api/utils/validate.js">
+        <metrics statements="37" coveredstatements="37" conditionals="46" coveredconditionals="46" methods="9" coveredmethods="9"/>
+        <line num="2" count="4" type="stmt"/>
+        <line num="3" count="4" type="stmt"/>
+        <line num="4" count="4" type="stmt"/>
+        <line num="7" count="4" type="stmt"/>
+        <line num="8" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="13" count="4" type="stmt"/>
+        <line num="14" count="16" type="cond" truecount="4" falsecount="0"/>
+        <line num="15" count="1" type="stmt"/>
+        <line num="17" count="15" type="cond" truecount="4" falsecount="0"/>
+        <line num="18" count="2" type="stmt"/>
+        <line num="20" count="13" type="cond" truecount="2" falsecount="0"/>
+        <line num="21" count="1" type="stmt"/>
+        <line num="23" count="12" type="cond" truecount="2" falsecount="0"/>
+        <line num="24" count="1" type="stmt"/>
+        <line num="26" count="11" type="cond" truecount="2" falsecount="0"/>
+        <line num="27" count="1" type="stmt"/>
+        <line num="31" count="4" type="stmt"/>
+        <line num="32" count="12" type="cond" truecount="4" falsecount="0"/>
+        <line num="33" count="1" type="stmt"/>
+        <line num="35" count="11" type="cond" truecount="2" falsecount="0"/>
+        <line num="36" count="1" type="stmt"/>
+        <line num="40" count="4" type="stmt"/>
+        <line num="41" count="6" type="cond" truecount="6" falsecount="0"/>
+        <line num="42" count="5" type="stmt"/>
+        <line num="46" count="4" type="stmt"/>
+        <line num="47" count="9" type="cond" truecount="8" falsecount="0"/>
+        <line num="48" count="4" type="stmt"/>
+        <line num="52" count="4" type="stmt"/>
+        <line num="53" count="8" type="cond" truecount="4" falsecount="0"/>
+        <line num="54" count="3" type="stmt"/>
+        <line num="58" count="4" type="stmt"/>
+        <line num="59" count="5" type="cond" truecount="4" falsecount="0"/>
+        <line num="60" count="3" type="stmt"/>
+        <line num="64" count="4" type="stmt"/>
+        <line num="65" count="5" type="cond" truecount="2" falsecount="0"/>
+        <line num="66" count="3" type="stmt"/>
+      </file>
+      <file name="verifiyUser.js" path="/home/kali/Desktop/belajar-react/inventory-postgresql/api/utils/verifiyUser.js">
+        <metrics statements="9" coveredstatements="9" conditionals="4" coveredconditionals="4" methods="2" coveredmethods="2"/>
+        <line num="3" count="4" type="stmt"/>
+        <line num="4" count="24" type="stmt"/>
+        <line num="5" count="24" type="cond" truecount="2" falsecount="0"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="8" count="23" type="stmt"/>
+        <line num="9" count="23" type="cond" truecount="2" falsecount="0"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="12" count="22" type="stmt"/>
+        <line num="13" count="22" type="stmt"/>
+      </file>
+    </package>
   </project>
 </coverage>

@@ -1,26 +1,22 @@
-import User from '../models/model.user.js';
 import bcryptjs from 'bcryptjs';
 import { errorHandler } from '../utils/error.js';
-import jwt from 'jsonwebtoken';
-import { validatePassword, validateUsername } from '../utils/validate.js';
+import { createUserRepository, findUserByUsername } from '../repository/repository.auth.js';
+import { validateUsername, validatePassword } from '../utils/validate.js';
+import { generateToken } from '../utils/generatedToken.js';
 
 export const signup = async (req, res, next) => {
     let { username, password } = req.body;
 
-    username = username.trim();
-    password = password.trim();
-
     try {
         validateUsername(username);
         validatePassword(password);
+        username = username.trim();
+        password = password.trim();
 
         const hashedPassword = bcryptjs.hashSync(password, 10);
-        const newUser = new User({
-            username,
-            password: hashedPassword,
-        });
 
-        const response = await newUser.save();
+        const response = await createUserRepository(username, hashedPassword);
+
         const { password: pass, ...rest } = response._doc;
 
         res.status(201).json(rest);
@@ -36,31 +32,34 @@ export const signup = async (req, res, next) => {
 export const signin = async (req, res, next) => {
     let { username, password } = req.body;
 
-    username = username.trim();
-    password = password.trim();
-
     try {
         validateUsername(username);
         validatePassword(password);
-        const validUser = await User.findOne({ username });
+        username = username.trim();
+        password = password.trim();
+
+        const validUser = await findUserByUsername(username);
         if (!validUser) {
             throw next(errorHandler(404, 'User not found'));
         }
+
         const validPassword = bcryptjs.compareSync(password, validUser.password);
+
         if (!validPassword) {
             throw next(errorHandler(400, 'Invalid username or password'));
         }
 
-        const token = jwt.sign(
-            { id: validUser._id, isAdmin: validUser.isAdmin, role: validUser.role },
-            process.env.JWT_SECRET,
-            { expiresIn: '1h' },
-        );
+        let isAdminToken = false;
+        if (validUser.isAdmin) {
+            isAdminToken = true;
+        }
+
+        const userToken = generateToken({ id: validUser._id, isAdmin: isAdminToken, role: validUser.role });
 
         const { password: pass, ...rest } = validUser._doc;
 
         res.status(200)
-            .cookie('access_token', token, {
+            .cookie('access_token', userToken, {
                 httpOnly: true,
             })
             .json(rest);
