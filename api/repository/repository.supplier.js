@@ -44,7 +44,6 @@ export const getSuppliersRepository = async ({ searchTerm, startIndex = 0, limit
 };
 
 export const deleteSupplierRepository = async (supplierId) => {
-    console.log(supplierId);
     try {
         return await Supplier.destroy({ where: { id: supplierId } });
     } catch (error) {

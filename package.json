@@ -7,7 +7,7 @@
     "scripts": {
         "dev": "nodemon api/index.js",
         "start": "node api/index.js",
-        "test": "PORT=4000 jest",
+        "test": "PORT=4000 jest ",
         "seeder": "node api/seeders/seederUser.js",
         "build": "npm install && npm install --prefix client && npm run build --prefix client"
     },
@@ -26,8 +26,13 @@
             }
         },
         "collectCoverageFrom": [
+            "api/controllers/*",
+            "api/models/*",
+            "api/routes/*",
             "api/utils/*",
-            "api/controllers/controller.item.js",
+            "api/database/*",
+            "api/index.js",
+            "!api/repository/repository.auth.js",
             "!**/node_modules/**",
             "!**/client/**",
             "!**/.vscode/**"
